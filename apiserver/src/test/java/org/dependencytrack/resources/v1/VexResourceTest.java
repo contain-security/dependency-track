@@ -202,13 +202,18 @@ public class VexResourceTest extends ResourceTest {
                               "name": "acme-app",
                               "version": "1.0.0"
                             },
-                            "tools": [
-                              {
-                                "vendor": "OWASP",
-                                "name": "Dependency-Track",
-                                "version": "${json-unit.any-string}"
-                              }
-                            ]
+                            "tools": {
+                              "components": [
+                                {
+                                  "type": "application",
+                                  "supplier": {
+                                    "name": "OWASP"
+                                  },
+                                  "name": "Dependency-Track",
+                                  "version": "${json-unit.any-string}"
+                                }
+                              ]
+                            }
                           },
                           "components": [
                             {
@@ -603,13 +608,18 @@ public class VexResourceTest extends ResourceTest {
                               "name": "acme-app",
                               "version": "1.0.0"
                             },
-                            "tools": [
-                              {
-                                "vendor": "OWASP",
-                                "name": "Dependency-Track",
-                                "version": "${json-unit.any-string}"
-                              }
-                            ]
+                            "tools": {
+                              "components": [
+                                {
+                                  "type": "application",
+                                  "supplier": {
+                                    "name": "OWASP"
+                                  },
+                                  "name": "Dependency-Track",
+                                  "version": "${json-unit.any-string}"
+                                }
+                              ]
+                            }
                           },
                           "components": [
                             {
@@ -736,13 +746,18 @@ public class VexResourceTest extends ResourceTest {
                               "name": "acme-app",
                               "version": "1.0.0"
                             },
-                            "tools": [
-                              {
-                                "vendor": "OWASP",
-                                "name": "Dependency-Track",
-                                "version": "${json-unit.any-string}"
-                              }
-                            ]
+                            "tools": {
+                              "components": [
+                                {
+                                  "type": "application",
+                                  "supplier": {
+                                    "name": "OWASP"
+                                  },
+                                  "name": "Dependency-Track",
+                                  "version": "${json-unit.any-string}"
+                                }
+                              ]
+                            }
                           },
                           "components": [
                             {

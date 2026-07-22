@@ -285,7 +285,7 @@ public class CycloneDXVexImporterTest extends PersistenceCapableTest {
         // Export a VEX for the project, then re-import it into the same project.
         final var exporter = new CycloneDXExporter(CycloneDXExporter.Variant.VEX, qm);
         final byte[] vexBytes = exporter
-                .export(exporter.create(project), CycloneDXExporter.Format.JSON, Version.VERSION_15)
+                .export(exporter.create(project, Version.VERSION_15), CycloneDXExporter.Format.JSON, Version.VERSION_15)
                 .getBytes(StandardCharsets.UTF_8);
         final Bom vex = BomParserFactory.createParser(vexBytes).parse(vexBytes);
         vexImporter.applyVex(qm, vex, project);

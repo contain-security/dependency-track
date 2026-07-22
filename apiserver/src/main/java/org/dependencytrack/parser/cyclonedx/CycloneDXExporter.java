@@ -107,7 +107,7 @@ public class CycloneDXExporter {
         this.qm = qm;
     }
 
-    public Bom create(final Project project) {
+    public Bom create(final Project project, final Version version) {
         final List<Component> components;
         final List<ServiceComponent> services;
         try (var _ = new ScopedCustomization(qm.getPersistenceManager())
@@ -118,16 +118,21 @@ public class CycloneDXExporter {
         final List<Finding> findings = variant.emitsFindings()
                 ? withJdbiHandle(handle -> handle.attach(FindingDao.class).getFindings(project.getId(), true))
                 : null;
-        return create(components, services, findings, project);
+        return create(components, services, findings, project, version);
     }
 
-    public Bom create(final Component component) {
+    public Bom create(final Component component, final Version version) {
         final List<Component> components = new ArrayList<>();
         components.add(component);
-        return create(components, null, null, null);
+        return create(components, null, null, null, version);
     }
 
-    private Bom create(List<Component> components, final List<ServiceComponent> services, final List<Finding> findings, final Project project) {
+    private Bom create(
+            List<Component> components,
+            final List<ServiceComponent> services,
+            final List<Finding> findings,
+            final Project project,
+            final Version version) {
         if (variant.filtersToVulnerableComponents()) {
             final Set<UUID> vulnerableComponentUuids = findings.stream()
                     .map(finding -> (UUID) finding.getComponent().get("uuid"))
@@ -141,7 +146,7 @@ public class CycloneDXExporter {
         final Bom bom = new Bom();
         bom.setSerialNumber("urn:uuid:" + UUID.randomUUID());
         bom.setVersion(1);
-        bom.setMetadata(ModelConverter.createMetadata(project));
+        bom.setMetadata(ModelConverter.createMetadata(project, version));
         bom.setComponents(cycloneComponents);
         bom.setServices(cycloneServices);
         bom.setVulnerabilities(ModelConverter.generateVulnerabilities(qm, variant, findings));

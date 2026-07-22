@@ -442,13 +442,18 @@ class BomResourceTest extends ResourceTest {
                                 "supplier": {
                                   "name": "bomSupplier"
                                 },
-                                "tools": [
-                                    {
-                                        "vendor": "OWASP",
-                                        "name": "Dependency-Track",
-                                        "version": "${json-unit.any-string}"
-                                    }
-                                ]
+                                "tools": {
+                                    "components": [
+                                        {
+                                            "type": "application",
+                                            "supplier": {
+                                              "name": "OWASP"
+                                            },
+                                            "name": "Dependency-Track",
+                                            "version": "${json-unit.any-string}"
+                                        }
+                                    ]
+                                }
                             },
                             "components": [
                                 {
@@ -555,13 +560,18 @@ class BomResourceTest extends ResourceTest {
                             "version": 1,
                             "metadata": {
                                 "timestamp": "${json-unit.any-string}",
-                                "tools": [
-                                    {
-                                        "vendor": "OWASP",
-                                        "name": "Dependency-Track",
-                                        "version": "${json-unit.any-string}"
-                                    }
-                                ],
+                                "tools": {
+                                    "components": [
+                                        {
+                                            "type": "application",
+                                            "supplier": {
+                                              "name": "OWASP"
+                                            },
+                                            "name": "Dependency-Track",
+                                            "version": "${json-unit.any-string}"
+                                        }
+                                    ]
+                                },
                                 "component": {
                                     "type": "library",
                                     "bom-ref": "${json-unit.matches:projectUuid}",
@@ -692,13 +702,18 @@ class BomResourceTest extends ResourceTest {
                                     "name": "acme-app",
                                     "version": "SNAPSHOT"
                                 },
-                                "tools": [
-                                    {
-                                        "vendor": "OWASP",
-                                        "name": "Dependency-Track",
-                                        "version": "${json-unit.any-string}"
-                                    }
-                                ]
+                                "tools": {
+                                    "components": [
+                                        {
+                                            "type": "application",
+                                            "supplier": {
+                                              "name": "OWASP"
+                                            },
+                                            "name": "Dependency-Track",
+                                            "version": "${json-unit.any-string}"
+                                        }
+                                    ]
+                                }
                             },
                             "components": [
                                 {
@@ -898,13 +913,18 @@ class BomResourceTest extends ResourceTest {
                                     "name": "acme-app",
                                     "version": "SNAPSHOT"
                                 },
-                                "tools": [
-                                    {
-                                        "vendor": "OWASP",
-                                        "name": "Dependency-Track",
-                                        "version": "${json-unit.any-string}"
-                                    }
-                                ]
+                                "tools": {
+                                    "components": [
+                                        {
+                                            "type": "application",
+                                            "supplier": {
+                                              "name": "OWASP"
+                                            },
+                                            "name": "Dependency-Track",
+                                            "version": "${json-unit.any-string}"
+                                        }
+                                    ]
+                                }
                             },
                             "components": [
                                 {
