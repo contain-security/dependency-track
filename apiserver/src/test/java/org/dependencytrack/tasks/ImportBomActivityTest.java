@@ -1563,6 +1563,40 @@ class ImportBomActivityTest extends PersistenceCapableTest {
     }
 
     @Test
+    void informCycloneDx17WithVersionRangeTest() throws Exception {
+        final var project = new Project();
+        project.setName("acme-cdx17-app");
+        qm.persist(project);
+
+        final Path bomPath = Paths.get(resourceToURL("/unit/cyclonedx/valid-bom-1.7.json").toURI());
+        final FileMetadata bomFileMetadata;
+        try (final var inputStream = Files.newInputStream(bomPath)) {
+            bomFileMetadata = fileStorage.store(
+                    "test/%s-%s".formatted(ImportBomActivityTest.class.getSimpleName(), UUID.randomUUID()),
+                    inputStream);
+        }
+
+        final var bomUploadToken = UUID.randomUUID();
+        activity.execute(null, buildArg(project, bomFileMetadata, bomUploadToken));
+        assertBomProcessedNotification();
+
+        qm.getPersistenceManager().evictAll();
+        assertThat(qm.getAllComponents(project)).satisfiesExactlyInAnyOrder(
+                component -> {
+                    assertThat(component.getName()).isEqualTo("tomcat-catalina");
+                    assertThat(component.getVersion()).isEqualTo("9.0.14");
+                },
+                component -> {
+                    assertThat(component.getName()).isEqualTo("acme-ranged-lib");
+                    // Dependency-Track does not currently persist CycloneDX 1.7 versionRange.
+                    assertThat(component.getVersion()).isNull();
+                });
+
+        final Project refreshedProject = qm.getObjectByUuid(Project.class, project.getUuid());
+        assertThat(refreshedProject.getLastBomImportFormat()).isEqualTo("CycloneDX 1.7");
+    }
+
+    @Test
     void informWithExistingComponentOccurrencesAndBomWithComponentOccurrencesTest() throws Exception {
         final var project = new Project();
         project.setName("acme-license-app");

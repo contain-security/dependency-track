@@ -150,7 +150,7 @@ class BomResourceTest extends ResourceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1.2", "1.3", "1.4", "1.5", "1.6", ""})
+    @ValueSource(strings = {"1.2", "1.3", "1.4", "1.5", "1.6", "1.7", ""})
     void exportProjectAsCycloneDxTest(String version) {
         initializeWithPermissions(Permissions.VIEW_PORTFOLIO);
 
@@ -175,7 +175,7 @@ class BomResourceTest extends ResourceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", ""})
+    @ValueSource(strings = {"1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", ""})
     void exportProjectAsCycloneDxXMLTest(String version) {
         initializeWithPermissions(Permissions.VIEW_PORTFOLIO);
 
@@ -1073,7 +1073,7 @@ class BomResourceTest extends ResourceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1.2", "1.3", "1.4", "1.5", "1.6", ""})
+    @ValueSource(strings = {"1.2", "1.3", "1.4", "1.5", "1.6", "1.7", ""})
     void exportComponentAsCycloneDx(String version) {
         initializeWithPermissions(Permissions.VIEW_PORTFOLIO);
 

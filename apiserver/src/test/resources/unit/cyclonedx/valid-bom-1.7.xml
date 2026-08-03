@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<bom serialNumber="urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79"
+     version="1"
+     xmlns="http://cyclonedx.org/schema/bom/1.7">
+    <metadata>
+        <timestamp>2026-01-01T00:00:00Z</timestamp>
+        <tools>
+            <components>
+                <component type="application">
+                    <name>Awesome Tool</name>
+                    <version>9.1.2</version>
+                </component>
+            </components>
+        </tools>
+        <component type="application">
+            <name>Acme Application</name>
+            <version>9.1.1</version>
+        </component>
+    </metadata>
+    <components>
+        <component type="library" bom-ref="pkg:maven/com.acme/tomcat-catalina@9.0.14">
+            <group>com.acme</group>
+            <name>tomcat-catalina</name>
+            <version>9.0.14</version>
+            <licenses>
+                <license>
+                    <id>Apache-2.0</id>
+                </license>
+            </licenses>
+            <purl>pkg:maven/com.acme/tomcat-catalina@9.0.14</purl>
+        </component>
+        <component type="library" isExternal="true" bom-ref="acme-ranged-lib">
+            <name>acme-ranged-lib</name>
+            <versionRange>vers:maven/&gt;=1.0|&lt;2.0</versionRange>
+        </component>
+    </components>
+</bom>

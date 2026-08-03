@@ -207,6 +207,41 @@ public class CycloneDXVexImporterTest extends PersistenceCapableTest {
                 .containsExactly("Vendor Response: NOT_SET → UPDATE");
     }
 
+    @Test
+    public void shouldImportCycloneDx17Vex() throws Exception {
+        final var project = new Project();
+        project.setName("acme-app");
+        qm.persist(project);
+
+        final var component = new Component();
+        component.setProject(project);
+        component.setName("acme-lib");
+        component.setVersion("1.0.0");
+        qm.persist(component);
+
+        final var vuln = new Vulnerability();
+        vuln.setVulnId("CVE-2099-0001");
+        vuln.setSource(Vulnerability.Source.NVD);
+        vuln.setSeverity(Severity.HIGH);
+        vuln.setComponents(List.of(component));
+        qm.persist(vuln);
+        qm.addVulnerability(vuln, component, "none");
+
+        final byte[] vexBytes = IOUtils.resourceToByteArray("/unit/vex-1.7.json");
+        CycloneDxValidator.getInstance().validate(vexBytes);
+        final Bom vex = BomParserFactory.createParser(vexBytes).parse(vexBytes);
+
+        vexImporter.applyVex(qm, vex, project);
+
+        final Analysis analysis = qm.getAnalysis(component, vuln);
+        Assertions.assertThat(analysis).isNotNull();
+        Assertions.assertThat(analysis.getAnalysisState()).isEqualTo(AnalysisState.NOT_AFFECTED);
+        Assertions.assertThat(analysis.getAnalysisJustification())
+                .isEqualTo(AnalysisJustification.PROTECTED_BY_MITIGATING_CONTROL);
+        Assertions.assertThat(analysis.getAnalysisDetails()).isEqualTo("Covered by a compensating control.");
+        Assertions.assertThat(analysis.isSuppressed()).isTrue();
+    }
+
     /**
      * Round-trip regression for the VEX bom-ref fix: when several components share a vulnerability
      * but only one is analysed, an exported-then-reimported VEX must apply that analysis to the

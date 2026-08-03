@@ -1,0 +1,48 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-01-01T00:00:00Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "Awesome Tool",
+          "version": "9.1.2"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "name": "Acme Application",
+      "version": "9.1.1"
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "pkg:maven/com.acme/tomcat-catalina@9.0.14",
+      "type": "library",
+      "group": "com.acme",
+      "name": "tomcat-catalina",
+      "version": "9.0.14",
+      "purl": "pkg:maven/com.acme/tomcat-catalina@9.0.14",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "bom-ref": "acme-ranged-lib",
+      "type": "library",
+      "name": "acme-ranged-lib",
+      "isExternal": true,
+      "versionRange": "vers:maven/>=1.0|<2.0"
+    }
+  ]
+}

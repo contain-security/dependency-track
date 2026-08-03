@@ -311,7 +311,7 @@ public class VexResourceTest extends ResourceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1.4", "1.5", "1.6", ""})
+    @ValueSource(strings = {"1.4", "1.5", "1.6", "1.7", ""})
     void exportVexWithVersion(String version) {
         initializeWithPermissions(Permissions.VULNERABILITY_ANALYSIS_READ);
 
