@@ -103,8 +103,6 @@ import static org.dependencytrack.dex.DexWorkflowLabels.WF_LABEL_VEX_UPLOAD_TOKE
 public class VexResource extends AbstractApiResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VexResource.class);
-    private static final String DEFAULT_EXPORT_VERSION = "1.5";
-
     private final DexEngine dexEngine;
     private final FileStorage fileStorage;
 
@@ -143,11 +141,14 @@ public class VexResource extends AbstractApiResource {
             @PathParam("uuid") @ValidUuid String uuid,
             @Parameter(description = "Force the resulting VEX to be downloaded as a file (defaults to 'false')")
             @QueryParam("download") boolean download,
-            @Parameter(description = "The CycloneDX Spec variant exported (defaults to: '" + DEFAULT_EXPORT_VERSION + "')")
+            @Parameter(description = "The CycloneDX specification version to export. Supported values are "
+                    + "1.4 through 1.7 (defaults to: '"
+                    + CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION + "')")
             @QueryParam("version") String version
     ) {
         try (QueryManager qm = new QueryManager(getAlpineRequest())) {
-            String versionParameter = Objects.toString(StringUtils.trimToNull(version), DEFAULT_EXPORT_VERSION);
+            String versionParameter = Objects.toString(
+                    StringUtils.trimToNull(version), CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION);
             Version cdxOutputVersion = Version.fromVersionString(versionParameter);
             if (cdxOutputVersion == null) {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Invalid CycloneDX version specified.").build();

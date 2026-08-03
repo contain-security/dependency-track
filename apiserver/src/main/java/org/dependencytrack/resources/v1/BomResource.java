@@ -141,8 +141,6 @@ import static org.dependencytrack.util.PersistenceUtil.isUniqueConstraintViolati
 public class BomResource extends AbstractApiResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BomResource.class);
-    private static final String DEFAULT_EXPORT_VERSION = "1.5";
-
     @Inject
     private DexEngine dexEngine;
 
@@ -186,15 +184,19 @@ public class BomResource extends AbstractApiResource {
             @PathParam("uuid") @ValidUuid String uuid,
             @Parameter(description = "The format to output (defaults to JSON)")
             @QueryParam("format") String format,
-            @Parameter(description = "Specifies the CycloneDX variant to export. Value options are 'inventory' and 'withVulnerabilities'. (defaults to 'inventory')")
+            @Parameter(description = "Specifies the CycloneDX variant to export. Value options are 'inventory', "
+                    + "'withVulnerabilities', and 'vdr'. (defaults to 'inventory')")
             @QueryParam("variant") String variant,
             @Parameter(description = "Force the resulting BOM to be downloaded as a file (defaults to 'false')")
             @QueryParam("download") boolean download,
-            @Parameter(description = "The CycloneDX Spec variant exported (defaults to: '" + DEFAULT_EXPORT_VERSION + "')")
+            @Parameter(description = "The CycloneDX specification version to export. Supported JSON values are "
+                    + "1.2 through 1.7; XML values are 1.0 through 1.7 (defaults to: '"
+                    + CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION + "')")
             @QueryParam("version") String version
     ) {
         try (QueryManager qm = new QueryManager(getAlpineRequest())) {
-            String versionParameter = Objects.toString(StringUtils.trimToNull(version), DEFAULT_EXPORT_VERSION);
+            String versionParameter = Objects.toString(
+                    StringUtils.trimToNull(version), CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION);
             Version cdxOutputVersion = Version.fromVersionString(versionParameter);
             if (cdxOutputVersion == null) {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Invalid BOM version specified.").build();
@@ -282,11 +284,14 @@ public class BomResource extends AbstractApiResource {
             @PathParam("uuid") @ValidUuid String uuid,
             @Parameter(description = "The format to output (defaults to JSON)")
             @QueryParam("format") String format,
-            @Parameter(description = "The CycloneDX Spec variant exported (defaults to: '" + DEFAULT_EXPORT_VERSION + "')")
+            @Parameter(description = "The CycloneDX specification version to export. Supported JSON values are "
+                    + "1.2 through 1.7; XML values are 1.0 through 1.7 (defaults to: '"
+                    + CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION + "')")
             @QueryParam("version") String version
     ) {
         try (QueryManager qm = new QueryManager(getAlpineRequest())) {
-            String versionParameter = Objects.toString(StringUtils.trimToNull(version), DEFAULT_EXPORT_VERSION);
+            String versionParameter = Objects.toString(
+                    StringUtils.trimToNull(version), CycloneDXExporter.DEFAULT_EXPORT_SPEC_VERSION);
             Version cdxOutputVersion = Version.fromVersionString(versionParameter);
             if (cdxOutputVersion == null) {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Invalid BOM version specified.").build();
