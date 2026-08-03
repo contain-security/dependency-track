@@ -42,7 +42,7 @@ import static org.dependencytrack.persistence.jdbi.JdbiFactory.withJdbiHandle;
 
 public class CycloneDXExporter {
 
-    public static final String DEFAULT_EXPORT_SPEC_VERSION = "1.5";
+    public static final String DEFAULT_EXPORT_SPEC_VERSION = "1.6";
 
     public enum Format {
         JSON,

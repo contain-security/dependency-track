@@ -174,7 +174,7 @@ class BomResourceTest extends ResourceTest {
         String body = getPlainTextBody(response);
         Assertions.assertTrue(body.startsWith("{"));
 
-        String expectedCdxVersionSpec = version.isEmpty() ? "1.5" : version;
+        String expectedCdxVersionSpec = version.isEmpty() ? "1.6" : version;
         assertThatJson(body, json -> json.inPath("specVersion").isEqualTo("\"" + expectedCdxVersionSpec + "\""));
         assertThatNoException().isThrownBy(
                 () -> CycloneDxValidator.getInstance().validate(body.getBytes(StandardCharsets.UTF_8)));
@@ -231,7 +231,7 @@ class BomResourceTest extends ResourceTest {
                 .header(X_API_KEY, apiKey)
                 .get(Response.class);
         String body = getPlainTextBody(response);
-        final String expectedCdxVersionSpec = version.isEmpty() ? "1.5" : version;
+        final String expectedCdxVersionSpec = version.isEmpty() ? "1.6" : version;
         Assertions.assertEquals(200, response.getStatus(), 0);
         Assertions.assertNull(response.getHeaderString(TOTAL_COUNT_HEADER));
         assertThat(body).startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -425,8 +425,8 @@ class BomResourceTest extends ResourceTest {
         componentWithoutVuln.setDirectDependencies("[]");
         componentWithoutVuln = qm.createComponent(componentWithoutVuln, false);
 
-        // NB: Line, offset, and symbol are only supported since CycloneDX v1.6,
-        // and will not show up in this export since it's still in v1.5 format.
+        // NB: Line, offset, and symbol are supported since CycloneDX v1.6,
+        // which is the fork's default export version.
         final var componentOccurrence = new ComponentOccurrence();
         componentOccurrence.setComponent(componentWithoutVuln);
         componentOccurrence.setLocation("/foo/bar");
@@ -503,7 +503,7 @@ class BomResourceTest extends ResourceTest {
                 .isEqualTo(json(/* language=JSON */ """
                         {
                             "bomFormat": "CycloneDX",
-                            "specVersion": "1.5",
+                            "specVersion": "1.6",
                             "serialNumber": "${json-unit.ignore}",
                             "version": 1,
                             "metadata": {
@@ -554,7 +554,10 @@ class BomResourceTest extends ResourceTest {
                                     "evidence": {
                                       "occurrences": [
                                         {
-                                          "location": "/foo/bar"
+                                          "location": "/foo/bar",
+                                          "line": 666,
+                                          "offset": 123,
+                                          "symbol": "someSymbol"
                                         }
                                       ]
                                     },
@@ -642,7 +645,7 @@ class BomResourceTest extends ResourceTest {
                 .isEqualTo(json("""
                         {
                             "bomFormat": "CycloneDX",
-                            "specVersion": "1.5",
+                            "specVersion": "1.6",
                             "serialNumber": "${json-unit.ignore}",
                             "version": 1,
                             "metadata": {
@@ -778,7 +781,7 @@ class BomResourceTest extends ResourceTest {
                 .isEqualTo(json("""
                         {
                             "bomFormat": "CycloneDX",
-                            "specVersion": "1.5",
+                            "specVersion": "1.6",
                             "serialNumber": "${json-unit.ignore}",
                             "version": 1,
                             "metadata": {
@@ -989,7 +992,7 @@ class BomResourceTest extends ResourceTest {
                 .isEqualTo(json("""
                         {
                             "bomFormat": "CycloneDX",
-                            "specVersion": "1.5",
+                            "specVersion": "1.6",
                             "serialNumber": "${json-unit.ignore}",
                             "version": 1,
                             "metadata": {
@@ -1200,7 +1203,7 @@ class BomResourceTest extends ResourceTest {
         String body = getPlainTextBody(response);
         Assertions.assertTrue(body.startsWith("{"));
 
-        String expectedCdxVersionSpec = version.isEmpty() ? "1.5" : version;
+        String expectedCdxVersionSpec = version.isEmpty() ? "1.6" : version;
         assertThatJson(body).withMatcher("specVersion", equalTo(expectedCdxVersionSpec));
     }
 

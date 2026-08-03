@@ -191,7 +191,7 @@ public class VexResourceTest extends ResourceTest {
                 .isEqualTo("""
                         {
                           "bomFormat": "CycloneDX",
-                          "specVersion": "1.5",
+                          "specVersion": "1.6",
                           "serialNumber": "${json-unit.any-string}",
                           "version": 1,
                           "metadata": {
@@ -336,7 +336,7 @@ public class VexResourceTest extends ResourceTest {
         final String jsonResponse = getPlainTextBody(response);
         assertThatNoException().isThrownBy(() -> CycloneDxValidator.getInstance().validate(jsonResponse.getBytes()));
 
-        String expectedCdxVersionSpec = version.isEmpty() ? "1.5" : version;
+        String expectedCdxVersionSpec = version.isEmpty() ? "1.6" : version;
         assertThatJson(jsonResponse, json -> json.inPath("specVersion").isEqualTo("\"" + expectedCdxVersionSpec + "\""));
     }
 
@@ -597,7 +597,7 @@ public class VexResourceTest extends ResourceTest {
                 .isEqualTo("""
                         {
                           "bomFormat": "CycloneDX",
-                          "specVersion": "1.5",
+                          "specVersion": "1.6",
                           "serialNumber": "${json-unit.any-string}",
                           "version": 1,
                           "metadata": {
@@ -735,7 +735,7 @@ public class VexResourceTest extends ResourceTest {
                 .isEqualTo("""
                         {
                           "bomFormat": "CycloneDX",
-                          "specVersion": "1.5",
+                          "specVersion": "1.6",
                           "serialNumber": "${json-unit.any-string}",
                           "version": 1,
                           "metadata": {
